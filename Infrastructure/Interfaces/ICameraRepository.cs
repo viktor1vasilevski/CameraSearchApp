@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Interfaces;
 
-public interface ICameraRepository<TEntity> where TEntity : class
+public interface ICameraRepository
 {
     Task<IEnumerable<Camera>> GetAsync();
 }
