@@ -1,6 +1,7 @@
 using Infrastructure.Data.Context;
 using Infrastructure.IoC;
 using WebAPI.Extensions;
+using WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseCors("MyPolicy");
 
