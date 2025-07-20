@@ -1,7 +1,7 @@
 ﻿using Application.DTOs.Camera;
 using Application.Responses;
 
-namespace Application.Interfaces;
+namespace Application.Interfaces.Services;
 
 public interface ICameraService
 {

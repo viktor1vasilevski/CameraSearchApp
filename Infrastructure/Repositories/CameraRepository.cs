@@ -1,4 +1,4 @@
-﻿using Application.Interfaces;
+﻿using Application.Interfaces.Repositories;
 using Domain.Entities;
 using Infrastructure.Data.Context;
 using Infrastructure.Data.Repositories;

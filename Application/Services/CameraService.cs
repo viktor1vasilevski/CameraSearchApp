@@ -2,7 +2,8 @@
 using Application.DTOs.Camera;
 using Application.Enums;
 using Application.Extensions;
-using Application.Interfaces;
+using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
 using Application.Responses;
 using Infrastructure.Exceptions.Csv;
 using Microsoft.Extensions.Logging;
