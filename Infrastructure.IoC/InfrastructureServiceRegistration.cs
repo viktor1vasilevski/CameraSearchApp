@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Services;
 using Infrastructure.Data.Context;
-using Infrastructure.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,7 +13,7 @@ public static class InfrastructureServiceRegistration
         // Register file-based context with path
         services.AddSingleton<IContext>(new AppDbContext(csvPath));
 
-        // Infrastructure.Data.Interfaces > Infrastructure.Data.Repositories
+        // Application.Interfaces > Infrastructure.Data.Repositories
         services.AddScoped<ICameraRepository, CameraRepository>();
 
         // Application.Interfaces > Application.Services

@@ -10,8 +10,8 @@ public static class HostBuilderExtensions
         return Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
-                //var csvPath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../cameras-defb.csv"); // local
-                var csvPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../cameras-defb.csv"));
+                var csvPath = Path.Combine(Directory.GetCurrentDirectory(), "../../../../cameras-defb.csv"); // local
+                //var csvPath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../cameras-defb.csv"));
                 services.AddInfrastructureServices(csvPath);
             }).Build();
 

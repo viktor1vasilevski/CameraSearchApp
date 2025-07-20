@@ -1,7 +1,8 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Domain.Entities;
-using Infrastructure.Data.Exceptions;
+using Infrastructure.Data.Constants;
+using Infrastructure.Exceptions.Csv;
 using System.Globalization;
 
 namespace Infrastructure.Data.Context;
@@ -9,16 +10,23 @@ namespace Infrastructure.Data.Context;
 public class AppDbContext : IContext
 {
     private readonly string _csvFilePath;
-    private List<Camera>? _cache;
+    private List<Camera>? _cameraCache;
 
     public AppDbContext(string csvFilePath)
     {
         _csvFilePath = csvFilePath;
     }
-    public async Task<List<Camera>> LoadDataAsync()
+
+    public async Task<List<TEntity>> LoadDataAsync<TEntity>() where TEntity : class
     {
-        if (_cache != null && _cache.Count != 0)
-            return _cache;
+        var cameras = await LoadCamerasAsync();
+        return cameras.Cast<TEntity>().ToList();
+    }
+
+    private async Task<List<Camera>> LoadCamerasAsync()
+    {
+        if (_cameraCache != null && _cameraCache.Count > 0)
+            return _cameraCache;
 
         try
         {
@@ -39,23 +47,21 @@ public class AppDbContext : IContext
                 records.Add(record);
             }
 
-            _cache = records;
-
+            _cameraCache = records;
             return records;
         }
         catch (CsvHelperException ex)
         {
-            throw new CsvParseException("Failed to parse CSV file.", ex);
+            throw new CsvParseException(CsvConstants.FailParseCsvFile, ex);
         }
         catch (IOException ex)
         {
-            throw new DataLoadException("Error accessing data file.", ex);
+            throw new DataLoadException(CsvConstants.FormatInvalid, ex);
         }
-
     }
 }
 
 public interface IContext
 {
-    Task<List<Camera>> LoadDataAsync();
+    Task<List<TEntity>> LoadDataAsync<TEntity>() where TEntity : class;
 }

@@ -1,4 +1,6 @@
-﻿using Search.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Search.Extensions;
 using Search.Helpers;
 
 class Program
@@ -6,6 +8,7 @@ class Program
     static async Task<int> Main(string[] args)
     {
         var host = HostBuilderExtensions.CreateHost(args);
+        var logger = host.Services.GetRequiredService<ILogger<Program>>();
 
         var nameFilter = args.GetNameArgument();
         if (string.IsNullOrWhiteSpace(nameFilter))
@@ -14,12 +17,29 @@ class Program
             return 1;
         }
 
-        await host.Services.UseCameraServiceAsync(async service =>
+        try
         {
-            var cameras = await service.GetCamerasAsync(nameFilter);
-            CameraPrintHelper.PrintCameras(cameras);
-        });
+            await host.Services.UseCameraServiceAsync(async service =>
+            {
+                var response = await service.GetCamerasAsync(nameFilter);
 
-        return 0;
+                if (response.Success && response.Data is { Count: > 0 })
+                {
+                    CameraPrintHelper.PrintCameras(response.Data);
+                }
+                else
+                {
+                    ErrorPrintHelper.PrintErrorMessage(response.Message ?? "An unknown error occurred.");
+                }
+            });
+
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Unhandled exception occurred in Program.Main.");
+            ErrorPrintHelper.PrintErrorMessage("A fatal error occurred. Please check the logs for details.");
+            return 2;
+        }
     }
 }

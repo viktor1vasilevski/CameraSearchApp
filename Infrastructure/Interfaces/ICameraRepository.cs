@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Interfaces;
 
-public interface ICameraRepository
-{
-    Task<IEnumerable<Camera>> GetAsync();
-}
+//public interface ICameraRepository
+//{
+//    Task<IEnumerable<Camera>> GetAsync();
+//}
