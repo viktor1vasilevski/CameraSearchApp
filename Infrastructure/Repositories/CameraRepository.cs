@@ -2,7 +2,6 @@
 using Domain.Entities;
 using Infrastructure.Data.Context;
 using Infrastructure.Data.Repositories;
-using Infrastructure.Interfaces;
 
 namespace Infrastructure.Repositories;
 

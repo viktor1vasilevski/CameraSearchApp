@@ -1,5 +1,6 @@
 ﻿using Application.Enums;
 using Application.Responses;
+using Infrastructure.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -22,26 +23,37 @@ public class GlobalExceptionMiddleware
         {
             await _next(context);
         }
+        catch (UnsupportedEntityException ex)
+        {
+            _logger.LogWarning(ex, "Unsupported entity type.");
+            context.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
+            context.Response.ContentType = "application/json";
+
+            var jsonResponse = CreateJsonResponse(ex.Message, NotificationType.ServerError);
+            await context.Response.WriteAsync(jsonResponse);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled exception caught in global middleware.");
-
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType = "application/json";
 
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-            var response = new ApiResponse<object>
-            {
-                Success = false,
-                Message = "An unexpected error occurred. Please try again later.",
-                NotificationType = NotificationType.ServerError,
-                Data = null
-            };
-
-            var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
-
-            var jsonResponse = JsonSerializer.Serialize(response, options);
+            var jsonResponse = CreateJsonResponse("An unexpected error occurred. Please try again later.", NotificationType.ServerError);
             await context.Response.WriteAsync(jsonResponse);
         }
+    }
+
+    private static string CreateJsonResponse(string message, NotificationType type)
+    {
+        var response = new ApiResponse<object>
+        {
+            Success = false,
+            Message = message,
+            NotificationType = type,
+            Data = null
+        };
+
+        var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+        return JsonSerializer.Serialize(response, options);
     }
 }

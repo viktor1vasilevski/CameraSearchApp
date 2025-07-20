@@ -2,6 +2,7 @@
 using CsvHelper.Configuration;
 using Domain.Entities;
 using Infrastructure.Data.Constants;
+using Infrastructure.Exceptions;
 using Infrastructure.Exceptions.Csv;
 using System.Globalization;
 
@@ -19,8 +20,14 @@ public class AppDbContext : IContext
 
     public async Task<List<TEntity>> LoadDataAsync<TEntity>() where TEntity : class
     {
-        var cameras = await LoadCamerasAsync();
-        return cameras.Cast<TEntity>().ToList();
+        
+        if (typeof(TEntity) == typeof(Camera))
+        {
+            var cameras = await LoadCamerasAsync();
+            return cameras.Cast<TEntity>().ToList();
+        }
+
+        throw new UnsupportedEntityException(typeof(TEntity));
     }
 
     private async Task<List<Camera>> LoadCamerasAsync()
