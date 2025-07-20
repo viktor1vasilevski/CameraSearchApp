@@ -8,15 +8,9 @@ using System.Globalization;
 
 namespace Infrastructure.Data.Context;
 
-public class AppDbContext : IContext
+public class AppDbContext(string csvFilePath) : IContext
 {
-    private readonly string _csvFilePath;
     private List<Camera>? _cameraCache;
-
-    public AppDbContext(string csvFilePath)
-    {
-        _csvFilePath = csvFilePath;
-    }
 
     public async Task<List<TEntity>> LoadDataAsync<TEntity>() where TEntity : class
     {
@@ -37,7 +31,7 @@ public class AppDbContext : IContext
 
         try
         {
-            using var reader = new StreamReader(_csvFilePath);
+            using var reader = new StreamReader(csvFilePath);
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 Delimiter = ";",
