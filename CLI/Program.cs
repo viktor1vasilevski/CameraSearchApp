@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Requests.Camera;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Search.Extensions;
 using Search.Helpers;
@@ -21,7 +22,7 @@ class Program
         {
             await host.Services.UseCameraServiceAsync(async service =>
             {
-                var response = await service.GetCamerasAsync(nameFilter);
+                var response = await service.GetCamerasAsync(new CameraRequest { Name = nameFilter});
 
                 if (response.Success && response.Data is { Count: > 0 })
                 {

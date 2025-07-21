@@ -4,6 +4,7 @@ using Application.Enums;
 using Application.Extensions;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
+using Application.Requests.Camera;
 using Application.Responses;
 using Infrastructure.Exceptions.Csv;
 using Microsoft.Extensions.Logging;
@@ -12,14 +13,14 @@ namespace Application.Services;
 
 public class CameraService(ICameraRepository cameraRepository, ILogger<CameraService> logger) : ICameraService
 {
-    public async Task<ApiResponse<List<CameraDTO>>> GetCamerasAsync(string? name = null)
+    public async Task<ApiResponse<List<CameraDTO>>> GetCamerasAsync(CameraRequest request)
     {
         try
         {
             var cameras = await cameraRepository.GetAsync();
 
-            cameras = cameras.WhereIf(!string.IsNullOrEmpty(name),
-                x => x.Name.Contains(name!, StringComparison.OrdinalIgnoreCase));
+            cameras = cameras.WhereIf(!string.IsNullOrEmpty(request.Name),
+                x => x.Name.Contains(request.Name!, StringComparison.OrdinalIgnoreCase));
 
             var camerasDTOs = cameras.Select(x => new CameraDTO
             {
@@ -33,13 +34,13 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
             {
                 Success = true,
                 NotificationType = NotificationType.Success,
-                Data = camerasDTOs
+                Data = camerasDTOs,
             };
         }
         catch (CsvParseException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",  
-                nameof(GetCamerasAsync), DateTime.Now, name);
+                nameof(GetCamerasAsync), DateTime.Now, request.Name);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -51,7 +52,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",
-                nameof(GetCamerasAsync), DateTime.Now, name);
+                nameof(GetCamerasAsync), DateTime.Now, request.Name);
 
             return new ApiResponse<List<CameraDTO>>
             {
