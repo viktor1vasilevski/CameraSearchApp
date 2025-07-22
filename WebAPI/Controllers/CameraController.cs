@@ -8,10 +8,12 @@ namespace WebAPI.Controllers;
 [ApiController]
 public class CameraController(ICameraService cameraService) : BaseController
 {
+
+
     [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] CameraRequest request)
+    public IActionResult Get([FromQuery] CameraRequest request)
     {
-        var response = await cameraService.GetCamerasAsync(request);
+        var response = cameraService.GetCameras(request);
         return HandleResponse(response);
     }
 }

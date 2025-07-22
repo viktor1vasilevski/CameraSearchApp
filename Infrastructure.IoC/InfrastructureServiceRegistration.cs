@@ -1,8 +1,7 @@
 ﻿using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Services;
-using Infrastructure.Data.Context;
-using Infrastructure.Repositories;
+using Infrastructure.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.IoC;
@@ -11,13 +10,9 @@ public static class InfrastructureServiceRegistration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string csvPath)
     {
-        // Register file-based context with path
-        services.AddSingleton<IContext>(new AppDbContext(csvPath));
+        var fullPath = Path.GetFullPath(csvPath);
+        services.AddSingleton<ICameraRepository>(new CsvCameraRepository(fullPath));
 
-        // Application.Interfaces > Infrastructure.Data.Repositories
-        services.AddScoped<ICameraRepository, CameraRepository>();
-
-        // Application.Interfaces > Application.Services
         services.AddScoped<ICameraService, CameraService>();
 
         return services;

@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Infrastructure.Exceptions\Infrastructure.Exceptions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<None Update="Data\cameras-defb.csv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+   </ItemGroup>
+
 </Project>

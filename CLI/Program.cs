@@ -6,7 +6,7 @@ using Search.Helpers;
 
 class Program
 {
-    static async Task<int> Main(string[] args)
+    static int Main(string[] args)
     {
         var host = HostBuilderExtensions.CreateHost(args);
         var logger = host.Services.GetRequiredService<ILogger<Program>>();
@@ -20,9 +20,9 @@ class Program
 
         try
         {
-            await host.Services.UseCameraServiceAsync(async service =>
+            host.Services.UseCameraService(service =>
             {
-                var response = await service.GetCamerasAsync(new CameraRequest { Name = nameFilter});
+                var response = service.GetCameras(new CameraRequest { Name = nameFilter });
 
                 if (response.Success && response.Data is { Count: > 0 })
                 {

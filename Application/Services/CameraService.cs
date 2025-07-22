@@ -13,11 +13,11 @@ namespace Application.Services;
 
 public class CameraService(ICameraRepository cameraRepository, ILogger<CameraService> logger) : ICameraService
 {
-    public async Task<ApiResponse<List<CameraDTO>>> GetCamerasAsync(CameraRequest request)
+    public ApiResponse<List<CameraDTO>> GetCameras(CameraRequest request)
     {
         try
         {
-            var cameras = await cameraRepository.GetAsync();
+            var cameras = cameraRepository.LoadCsv();
 
             cameras = cameras.WhereIf(!string.IsNullOrEmpty(request.Name),
                 x => x.Name.Contains(request.Name!, StringComparison.OrdinalIgnoreCase));
@@ -39,8 +39,8 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         }
         catch (CsvParseException ex)
         {
-            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",  
-                nameof(GetCamerasAsync), DateTime.Now, request.Name);
+            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",
+                nameof(GetCameras), DateTime.Now, request.Name);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -52,7 +52,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",
-                nameof(GetCamerasAsync), DateTime.Now, request.Name);
+                nameof(GetCameras), DateTime.Now, request.Name);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -61,6 +61,5 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
                 NotificationType = NotificationType.ServerError
             };
         }
-
     }
 }

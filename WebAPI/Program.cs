@@ -12,7 +12,8 @@ builder.Services.AddCors(policy => policy.AddPolicy("MyPolicy", builder =>
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
-builder.Services.AddInfrastructureServices(builder.Configuration["CsvSettings:CsvPath"]);
+var csvPath = builder.Configuration.GetValue<string>("CsvSettings:CsvPath");
+builder.Services.AddInfrastructureServices(csvPath);
 
 var app = builder.Build();
 
