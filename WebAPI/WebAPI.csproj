@@ -15,8 +15,4 @@
     <ProjectReference Include="..\Infrastructure.IoC\Infrastructure.IoC.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
 </Project>
