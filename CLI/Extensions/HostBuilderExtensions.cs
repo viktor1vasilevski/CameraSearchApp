@@ -9,11 +9,6 @@ namespace Search.Extensions
         public static IHost CreateHost(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((context, config) =>
-                {
-                    config.AddJsonFile("appsettings.json", optional: true);
-                    config.AddJsonFile("appsettings.Development.json", optional: true);
-                })
                 .ConfigureServices((context, services) =>
                 {
                     var csvRelativePath = context.Configuration.GetValue<string>("CsvSettings:CsvPath");
