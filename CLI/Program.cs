@@ -1,10 +1,9 @@
-﻿using Application.Requests.Camera;
-using Infrastructure.Exceptions.Configuration;
+﻿using Infrastructure.Exceptions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Search.Constants;
-using Search.Extensions;
 using Search.Helpers;
+using SearchConsole.Helpers;
 
 class Program
 {
@@ -13,29 +12,12 @@ class Program
         ILogger<Program>? logger = null;
         try
         {
-            var host = HostBuilderExtensions.CreateHost(args);
+            var host = HostBuilderHelper.CreateHost(args);
             logger = host.Services.GetRequiredService<ILogger<Program>>();
 
-            var nameFilter = args.GetNameArgument();
-            if (string.IsNullOrWhiteSpace(nameFilter))
-            {
-                Console.WriteLine("You must enter a search term.");
-                return 1;
-            }
+            var nameFilter = InputHelper.GetNameOrPrompt(args);
 
-            await host.Services.UseCameraServiceAsync(async service =>
-            {
-                var response = await service.SearchCamerasByNameAsync(new CameraRequest { Name = nameFilter });
-
-                if (response.Success && response.Data is { Count: > 0 })
-                {
-                    CameraPrintHelper.PrintCameras(response.Data);
-                }
-                else
-                {
-                    ErrorPrintHelper.PrintErrorMessage(response.Message ?? "An unknown error occurred.");
-                }
-            });
+            await CameraSearchHelper.RunCameraSearchAsync(host, nameFilter);
 
             return 0;
 
@@ -43,13 +25,13 @@ class Program
         catch (CsvConfigurationMissingException ex)
         {
             logger?.LogCritical(ex, CsvConfigurationConstants.CsvPathMissingLog);
-            ErrorPrintHelper.PrintErrorMessage(CsvConfigurationConstants.CsvPathMissingUser);
+            MessagePrintHelper.PrintMessage(CsvConfigurationConstants.CsvPathMissingUser);
             return 1;
         }
         catch (Exception ex)
         {
             logger?.LogError(ex, CsvConfigurationConstants.UnhandledExceptionLog);
-            ErrorPrintHelper.PrintErrorMessage(CsvConfigurationConstants.UnhandledExceptionUser);
+            MessagePrintHelper.PrintMessage(CsvConfigurationConstants.UnhandledExceptionUser);
             return 2;
         }
 

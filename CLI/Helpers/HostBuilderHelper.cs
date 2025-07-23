@@ -1,12 +1,12 @@
 ﻿using Infrastructure.Exceptions.Configuration;
-using Infrastructure.IoC;
 using Microsoft.Extensions.Configuration;
+using Infrastructure.IoC;
 using Microsoft.Extensions.Hosting;
 using Search.Constants;
 
-namespace Search.Extensions
+namespace SearchConsole.Helpers
 {
-    public static class HostBuilderExtensions
+    public static class HostBuilderHelper
     {
         public static IHost CreateHost(string[] args)
         {
