@@ -17,7 +17,7 @@ public class CameraController(ICameraService cameraService) : BaseController
         return HandleResponse(response);
     }
 
-    [HttpGet]
+    [HttpGet("Search")]
     public IActionResult Search([FromQuery] CameraRequest request)
     {
         var response = cameraService.GetFilteredCameras(request);
