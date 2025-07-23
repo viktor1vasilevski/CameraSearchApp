@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Infrastructure.Exceptions\Infrastructure.Exceptions.csproj" />
     <ProjectReference Include="..\Infrastructure.IoC\Infrastructure.IoC.csproj" />
   </ItemGroup>
 

@@ -13,7 +13,68 @@ namespace Application.Services;
 
 public class CameraService(ICameraRepository cameraRepository, ILogger<CameraService> logger) : ICameraService
 {
-    public ApiResponse<List<CameraDTO>> GetCameras(CameraRequest request)
+    public ApiResponse<CameraGroupedDTO> GetCameras()
+    {
+        try
+        {
+            var cameras = cameraRepository.LoadCsv();
+
+            var grouped = new CameraGroupedDTO();
+
+            foreach (var cam in cameras)
+            {
+                var dto = new CameraDTO
+                {
+                    Number = cam.Number,
+                    Name = cam.Name,
+                    Latitude = cam.Latitude,
+                    Longitude = cam.Longitude
+                };
+
+                if (cam.Number % 3 == 0 && cam.Number % 5 == 0)
+                    grouped.DivisibleBy3And5.Add(dto);
+                else if (cam.Number % 3 == 0)
+                    grouped.DivisibleBy3.Add(dto);
+                else if (cam.Number % 5 == 0)
+                    grouped.DivisibleBy5.Add(dto);
+                else
+                    grouped.NotDivisible.Add(dto);
+            }
+
+            return new ApiResponse<CameraGroupedDTO>
+            {
+                Success = true,
+                NotificationType = NotificationType.Success,
+                Data = grouped,
+            };
+        }
+        catch (CsvParseException ex)
+        {
+            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
+                nameof(GetCameras), DateTime.Now);
+
+            return new ApiResponse<CameraGroupedDTO>
+            {
+                Success = false,
+                Message = CameraConstants.DataFormatInvalid,
+                NotificationType = NotificationType.ServerError
+            };
+        }
+        catch (DataLoadException ex)
+        {
+            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
+                nameof(GetCameras), DateTime.Now);
+
+            return new ApiResponse<CameraGroupedDTO>
+            {
+                Success = false,
+                Message = CameraConstants.FailedLoadingCameraData,
+                NotificationType = NotificationType.ServerError
+            };
+        }
+    }
+
+    public ApiResponse<List<CameraDTO>> GetFilteredCameras(CameraRequest request)
     {
         try
         {
@@ -39,8 +100,8 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         }
         catch (CsvParseException ex)
         {
-            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",
-                nameof(GetCameras), DateTime.Now, request.Name);
+            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
+                nameof(GetCameras), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -51,8 +112,8 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         }
         catch (DataLoadException ex)
         {
-            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}] while processing name='{Name}'",
-                nameof(GetCameras), DateTime.Now, request.Name);
+            logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
+                nameof(GetCameras), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {
