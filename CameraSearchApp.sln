@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{52BCA53E-BFBB-44F5-ADDF-FB6F6AAF1E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Search", "CLI\Search.csproj", "{F258A05A-8076-425E-988C-83C0A15B461A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchConsole", "CLI\SearchConsole.csproj", "{F258A05A-8076-425E-988C-83C0A15B461A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IoC", "Infrastructure.IoC\Infrastructure.IoC.csproj", "{9B9C46B3-4D57-425E-8462-AF80C00000EF}"
 EndProject
