@@ -13,11 +13,11 @@ namespace Application.Services;
 
 public class CameraService(ICameraRepository cameraRepository, ILogger<CameraService> logger) : ICameraService
 {
-    public ApiResponse<CameraGroupedDTO> GetCameras()
+    public async Task<ApiResponse<CameraGroupedDTO>> GetCamerasAsync()
     {
         try
         {
-            var cameras = cameraRepository.LoadCsv();
+            var cameras = await cameraRepository.LoadCsvAsync();
 
             var grouped = new CameraGroupedDTO();
 
@@ -51,7 +51,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (CsvParseException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCameras), DateTime.Now);
+                nameof(GetCamerasAsync), DateTime.Now);
 
             return new ApiResponse<CameraGroupedDTO>
             {
@@ -63,7 +63,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCameras), DateTime.Now);
+                nameof(GetCamerasAsync), DateTime.Now);
 
             return new ApiResponse<CameraGroupedDTO>
             {
@@ -74,11 +74,11 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         }
     }
 
-    public ApiResponse<List<CameraDTO>> GetFilteredCameras(CameraRequest request)
+    public async Task<ApiResponse<List<CameraDTO>>> GetFilteredCamerasAsync(CameraRequest request)
     {
         try
         {
-            var cameras = cameraRepository.LoadCsv();
+            var cameras = await cameraRepository.LoadCsvAsync();
 
             cameras = cameras.WhereIf(!string.IsNullOrEmpty(request.Name),
                 x => x.Name.Contains(request.Name!, StringComparison.OrdinalIgnoreCase));
@@ -101,7 +101,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (CsvParseException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCameras), DateTime.Now);
+                nameof(GetFilteredCamerasAsync), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -113,7 +113,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCameras), DateTime.Now);
+                nameof(GetFilteredCamerasAsync), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {

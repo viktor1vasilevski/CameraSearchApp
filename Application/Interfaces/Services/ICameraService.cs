@@ -6,6 +6,6 @@ namespace Application.Interfaces.Services;
 
 public interface ICameraService
 {
-    ApiResponse<CameraGroupedDTO> GetCameras();
-    ApiResponse<List<CameraDTO>> GetFilteredCameras(CameraRequest request);
+    Task<ApiResponse<CameraGroupedDTO>> GetCamerasAsync();
+    Task<ApiResponse<List<CameraDTO>>> GetFilteredCamerasAsync(CameraRequest request);
 }

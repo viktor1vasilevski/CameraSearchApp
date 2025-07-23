@@ -12,7 +12,7 @@ public class CsvCameraRepository(string csvPath) : ICameraRepository
 {
     private List<Camera>? _cameras;
 
-    public IEnumerable<Camera> LoadCsv()
+    public async Task<IEnumerable<Camera>> LoadCsvAsync()
     {
         if (_cameras != null && _cameras.Count > 0)
             return _cameras;
@@ -29,7 +29,12 @@ public class CsvCameraRepository(string csvPath) : ICameraRepository
             };
 
             using var csv = new CsvReader(reader, config);
-            var records = csv.GetRecords<Camera>().ToList();
+            var records = new List<Camera>();
+
+            await foreach (var record in csv.GetRecordsAsync<Camera>())
+            {
+                records.Add(record);
+            }
 
             _cameras = records;
             return records;

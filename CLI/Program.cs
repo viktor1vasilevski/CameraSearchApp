@@ -8,7 +8,7 @@ using Search.Helpers;
 
 class Program
 {
-    static int Main(string[] args)
+    static async Task<int> Main(string[] args)
     {
         ILogger<Program>? logger = null;
         try
@@ -23,9 +23,9 @@ class Program
                 return 1;
             }
 
-            host.Services.UseCameraService(service =>
+            await host.Services.UseCameraServiceAsync(async service =>
             {
-                var response = service.GetFilteredCameras(new CameraRequest { Name = nameFilter });
+                var response = await service.GetFilteredCamerasAsync(new CameraRequest { Name = nameFilter });
 
                 if (response.Success && response.Data is { Count: > 0 })
                 {
@@ -38,6 +38,7 @@ class Program
             });
 
             return 0;
+
         }
         catch (CsvConfigurationMissingException ex)
         {

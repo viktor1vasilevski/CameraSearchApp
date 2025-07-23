@@ -4,5 +4,5 @@ namespace Application.Interfaces.Repositories;
 
 public interface ICameraRepository
 {
-    IEnumerable<Camera> LoadCsv();
+    Task<IEnumerable<Camera>> LoadCsvAsync();
 }

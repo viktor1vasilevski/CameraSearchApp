@@ -11,16 +11,16 @@ public class CameraController(ICameraService cameraService) : BaseController
 
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> GetAsync()
     {
-        var response = cameraService.GetCameras();
+        var response = await cameraService.GetCamerasAsync();
         return HandleResponse(response);
     }
 
     [HttpGet("Search")]
-    public IActionResult Search([FromQuery] CameraRequest request)
+    public async Task<IActionResult> SearchAsync([FromQuery] CameraRequest request)
     {
-        var response = cameraService.GetFilteredCameras(request);
+        var response = await cameraService.GetFilteredCamerasAsync(request);
         return HandleResponse(response);
     }
 }

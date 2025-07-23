@@ -5,9 +5,10 @@ namespace Search.Extensions;
 
 public static class ServiceProviderExtensions
 {
-    public static void UseCameraService(this IServiceProvider services, Action<ICameraService> action)
+    public static async Task UseCameraServiceAsync(this IServiceProvider services, Func<ICameraService, Task> action)
     {
-        var service = services.GetRequiredService<ICameraService>();
-        action(service);
+        using var scope = services.CreateScope();
+        var service = scope.ServiceProvider.GetRequiredService<ICameraService>();
+        await action(service);
     }
 }
