@@ -13,7 +13,7 @@ namespace Application.Services;
 
 public class CameraService(ICameraRepository cameraRepository, ILogger<CameraService> logger) : ICameraService
 {
-    public async Task<ApiResponse<CameraGroupedDTO>> GetCamerasAsync()
+    public async Task<ApiResponse<CameraGroupedDTO>> GetGroupedCamerasAsync()
     {
         try
         {
@@ -51,7 +51,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (CsvParseException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCamerasAsync), DateTime.Now);
+                nameof(GetGroupedCamerasAsync), DateTime.Now);
 
             return new ApiResponse<CameraGroupedDTO>
             {
@@ -63,7 +63,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetCamerasAsync), DateTime.Now);
+                nameof(GetGroupedCamerasAsync), DateTime.Now);
 
             return new ApiResponse<CameraGroupedDTO>
             {
@@ -74,7 +74,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         }
     }
 
-    public async Task<ApiResponse<List<CameraDTO>>> GetFilteredCamerasAsync(CameraRequest request)
+    public async Task<ApiResponse<List<CameraDTO>>> SearchCamerasByNameAsync(CameraRequest request)
     {
         try
         {
@@ -101,7 +101,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (CsvParseException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetFilteredCamerasAsync), DateTime.Now);
+                nameof(SearchCamerasByNameAsync), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {
@@ -113,7 +113,7 @@ public class CameraService(ICameraRepository cameraRepository, ILogger<CameraSer
         catch (DataLoadException ex)
         {
             logger.LogError(ex, "Exception ocured in [{Function}] at [{Timestamp}]",
-                nameof(GetFilteredCamerasAsync), DateTime.Now);
+                nameof(SearchCamerasByNameAsync), DateTime.Now);
 
             return new ApiResponse<List<CameraDTO>>
             {

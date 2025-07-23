@@ -25,7 +25,7 @@ class Program
 
             await host.Services.UseCameraServiceAsync(async service =>
             {
-                var response = await service.GetFilteredCamerasAsync(new CameraRequest { Name = nameFilter });
+                var response = await service.SearchCamerasByNameAsync(new CameraRequest { Name = nameFilter });
 
                 if (response.Success && response.Data is { Count: > 0 })
                 {
