@@ -2,6 +2,7 @@
 using Infrastructure.Exceptions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Search.Constants;
 using Search.Extensions;
 using Search.Helpers;
 
@@ -40,18 +41,14 @@ class Program
         }
         catch (CsvConfigurationMissingException ex)
         {
-            if (logger != null)
-                logger.LogCritical(ex, "CSV path configuration is missing. Application cannot continue.");
-
-            ErrorPrintHelper.PrintErrorMessage("Configuration error: CSV path is missing or invalid. Please check your appsettings or environment variables.");
+            logger?.LogCritical(ex, CsvConfigurationConstants.CsvPathMissingLog);
+            ErrorPrintHelper.PrintErrorMessage(CsvConfigurationConstants.CsvPathMissingUser);
             return 1;
         }
         catch (Exception ex)
         {
-            if (logger != null)
-                logger.LogError(ex, "Unhandled exception occurred in Program.Main.");
-
-            ErrorPrintHelper.PrintErrorMessage("A fatal error occurred. Please check the logs for details.");
+            logger?.LogError(ex, CsvConfigurationConstants.UnhandledExceptionLog);
+            ErrorPrintHelper.PrintErrorMessage(CsvConfigurationConstants.UnhandledExceptionUser);
             return 2;
         }
 

@@ -16,7 +16,7 @@ namespace Search.Extensions
                     var csvRelativePath = context.Configuration.GetValue<string>("CsvSettings:CsvPath");
 
                     if (string.IsNullOrWhiteSpace(csvRelativePath))
-                        throw new CsvConfigurationMissingException(CsvConfigurationConstants.CsvPathIsEmptyOrMissing);
+                        throw new CsvConfigurationMissingException(CsvConfigurationConstants.CsvPathMissingLog);
 
                     var fullPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, csvRelativePath));
 
