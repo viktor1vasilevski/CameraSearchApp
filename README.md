@@ -97,7 +97,7 @@ CameraSearchApp/
 
 2. **Run the CLI application:**
    ```sh
-   dotnet run --project SearchConsole.csproj
+   dotnet run SearchConsole.csproj
    ```
    or
    ```sh
