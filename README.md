@@ -99,8 +99,12 @@ CameraSearchApp/
    ```sh
    dotnet run --project SearchConsole.csproj
    ```
+   or
+   ```sh
+   dotnet run SearchConsole --name mari
+   ```
 
-3. **Follow the on-screen prompts** to search and display camera data.
+4. **Follow the on-screen prompts** to search and display camera data.
 
 **Features:**
 - Search cameras by street name
