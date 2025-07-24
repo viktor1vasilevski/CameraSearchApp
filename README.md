@@ -9,9 +9,6 @@ A multi-layered .NET 9 application for searching camera data, featuring both a W
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Build Instructions](#build-instructions)
 - [Configuration](#configuration)
 - [Sample Data](#sample-data)
 - [Usage](#usage)
@@ -58,29 +55,6 @@ CameraSearchApp/
   ├── WebAPI/                       # ASP.NET Core Web API
   └── README.md                     # Project documentation
 ```
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
-- (Optional) [Postman](https://www.postman.com/) or similar tool for API testing
-
-### Build Instructions
-
-1. **Clone the repository:**
-   ```sh
-   git clone <your-repo-url>
-   cd CameraSearchApp
-   ```
-
-2. **Restore dependencies and build the solution:**
-   ```sh
-   dotnet restore
-   dotnet build CameraSearchApp.sln
-   ```
 
 ---
 
