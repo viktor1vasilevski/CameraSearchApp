@@ -66,14 +66,14 @@ CameraSearchApp/
 **Example (`CLI/appsettings.json`):**
 ```json
 {
-  "CsvFilePath": "../cameras-defb.csv"
+  "CsvFilePath": "../../../../Infrastructure/cameras-defb.csv"
 }
 ```
 
 **Example (`WebAPI/appsettings.Development.json`):**
 ```json
 {
-  "CsvFilePath": "../cameras-defb.csv"
+  "CsvFilePath": "../Infrastructure/cameras-defb.csv"
 }
 ```
 
