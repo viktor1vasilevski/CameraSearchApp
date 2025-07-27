@@ -9,9 +9,6 @@ A multi-layered .NET 9 application for searching camera data, featuring both a W
 - [Overview](#overview)
 - [Architecture](#architecture)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Build Instructions](#build-instructions)
 - [Configuration](#configuration)
 - [Sample Data](#sample-data)
 - [Usage](#usage)
@@ -61,29 +58,6 @@ CameraSearchApp/
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) or later
-- (Optional) [Postman](https://www.postman.com/) or similar tool for API testing
-
-### Build Instructions
-
-1. **Clone the repository:**
-   ```sh
-   git clone <your-repo-url>
-   cd CameraSearchApp
-   ```
-
-2. **Restore dependencies and build the solution:**
-   ```sh
-   dotnet restore
-   dotnet build CameraSearchApp.sln
-   ```
-
----
-
 ## Configuration
 
 - **CSV Data Path:**  
@@ -92,14 +66,14 @@ CameraSearchApp/
 **Example (`CLI/appsettings.json`):**
 ```json
 {
-  "CsvFilePath": "../cameras-defb.csv"
+  "CsvFilePath": "../../../../Infrastructure/cameras-defb.csv"
 }
 ```
 
 **Example (`WebAPI/appsettings.Development.json`):**
 ```json
 {
-  "CsvFilePath": "../cameras-defb.csv"
+  "CsvFilePath": "../Infrastructure/cameras-defb.csv"
 }
 ```
 
@@ -123,10 +97,14 @@ CameraSearchApp/
 
 2. **Run the CLI application:**
    ```sh
-   dotnet run --project SearchConsole.csproj
+   dotnet run SearchConsole.csproj
+   ```
+   or
+   ```sh
+   dotnet run SearchConsole --name mari
    ```
 
-3. **Follow the on-screen prompts** to search and display camera data.
+4. **Follow the on-screen prompts** to search and display camera data.
 
 **Features:**
 - Search cameras by street name
