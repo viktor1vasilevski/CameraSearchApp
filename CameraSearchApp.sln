@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IoC", "Infra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Exceptions", "Infrastructure.Exceptions\Infrastructure.Exceptions.csproj", "{1C93AC49-0AD3-4B73-ABC6-23F311712A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{38B427EA-C7A2-408C-AD6C-9A462146B4BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1C93AC49-0AD3-4B73-ABC6-23F311712A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C93AC49-0AD3-4B73-ABC6-23F311712A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C93AC49-0AD3-4B73-ABC6-23F311712A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B427EA-C7A2-408C-AD6C-9A462146B4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B427EA-C7A2-408C-AD6C-9A462146B4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B427EA-C7A2-408C-AD6C-9A462146B4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B427EA-C7A2-408C-AD6C-9A462146B4BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
